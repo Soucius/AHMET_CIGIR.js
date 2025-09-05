@@ -29,7 +29,7 @@
             buildHTML();
             setEvents();
         } else {
-            console.log('Yüklenecek ürün bulunamadı, karusel oluşturulmuyor.');
+            console.log("Yüklenecek ürün bulunamadı, karusel oluşturulmuyor.");
         }
     };
 
@@ -132,7 +132,7 @@
             @media (max-width: 576px) { .sm-product-card { min-width: calc(80%); } }
         `;
 
-        const styleTag = document.createElement('style');
+        const styleTag = document.createElement("style");
         styleTag.innerHTML = css;
         document.head.appendChild(styleTag);
     };
@@ -141,7 +141,7 @@
         let productCardsHTML = self.products.map(product => {
             const isFavorited = self.favorites.includes(String(product.id)); 
             const hasDiscount = product.original_price && product.original_price > product.price;
-            let discountBadgeHTML = '';
+            let discountBadgeHTML = "";
 
             if (hasDiscount) {
                 const discountPercentage = Math.round(((product.original_price - product.price) / product.original_price) * 100);
@@ -157,6 +157,7 @@
                     <a href="${product.url}" target="_blank" class="sm-product-link">
                         <div class="sm-product-image-wrapper">
                             ${discountBadgeHTML}
+
                             <img src="${product.img}" alt="${product.name}" class="sm-product-image" />
                         </div>
 
@@ -165,6 +166,7 @@
 
                             <div class="sm-price-container">
                                 ${hasDiscount ? `<span class="sm-original-price">${formatPrice(product.original_price)}</span>` : ''}
+
                                 <span class="sm-current-price">${formatPrice(product.price)}</span>
                             </div>
                         </div>
@@ -178,28 +180,29 @@
                     <h2 class="sm-carousel-title">Beğenebileceğinizi düşündüklerimiz</h2>
 
                     <div class="sm-carousel-wrapper"><div class="sm-product-list">${productCardsHTML}</div></div>
+
                     <div class="sm-carousel-arrow sm-arrow-left"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="15 18 9 12 15 6"></polyline></svg></div>
 
                     <div class="sm-carousel-arrow sm-arrow-right"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="9 18 15 12 9 6"></polyline></svg></div>
                 </div>
             </section>`;
 
-        const mainSlider = document.querySelector('.main-slider');
+        const mainSlider = document.querySelector(".main-slider");
 
         if (mainSlider) {
-            mainSlider.insertAdjacentHTML('afterend', carouselHTML);
+            mainSlider.insertAdjacentHTML("afterend", carouselHTML);
         } else {
-            document.body.insertAdjacentHTML('afterbegin', carouselHTML);
+            document.body.insertAdjacentHTML("afterbegin", carouselHTML);
         }
     };
 
     const setEvents = () => {
-        const productList = document.querySelector('.sm-product-list');
-        const leftArrow = document.querySelector('.sm-arrow-left');
-        const rightArrow = document.querySelector('.sm-arrow-right');
+        const productList = document.querySelector(".sm-product-list");
+        const leftArrow = document.querySelector(".sm-arrow-left");
+        const rightArrow = document.querySelector(".sm-arrow-right");
         
         const scrollCarousel = (direction) => {
-            const card = productList.querySelector('.sm-product-card');
+            const card = productList.querySelector(".sm-product-card");
 
             if (!card) return;
 
@@ -207,20 +210,20 @@
             productList.scrollLeft += direction * scrollAmount;
         };
 
-        rightArrow.addEventListener('click', () => scrollCarousel(1));
-        leftArrow.addEventListener('click', () => scrollCarousel(-1));
+        rightArrow.addEventListener("click", () => scrollCarousel(1));
+        leftArrow.addEventListener("click", () => scrollCarousel(-1));
         
-        const carouselContainer = document.getElementById('sm-custom-carousel');
+        const carouselContainer = document.getElementById("sm-custom-carousel");
 
-        carouselContainer.addEventListener('click', (e) => {
-            const favoriteIcon = e.target.closest('.sm-favorite-icon');
+        carouselContainer.addEventListener("click", (e) => {
+            const favoriteIcon = e.target.closest(".sm-favorite-icon");
 
             if (favoriteIcon) {
                 e.stopPropagation();
 
-                const card = favoriteIcon.closest('.sm-product-card');
+                const card = favoriteIcon.closest(".sm-product-card");
                 const productId = card.dataset.productId;
-                favoriteIcon.classList.toggle('favorited');
+                favoriteIcon.classList.toggle("favorited");
                 const index = self.favorites.indexOf(productId);
 
                 if (index > -1) {
@@ -235,9 +238,9 @@
     };
     
     const formatPrice = (price) => {
-        if (price === null || typeof price === 'undefined') return '';
+        if (price === null || typeof price === "undefined") return "";
 
-        return new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY' }).format(price);
+        return new Intl.NumberFormat("tr-TR", { style: "currency", currency: "TRY" }).format(price);
     };
 
     init();
